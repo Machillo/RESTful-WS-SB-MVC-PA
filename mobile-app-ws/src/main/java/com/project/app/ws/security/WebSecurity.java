@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -37,6 +38,10 @@ public class WebSecurity {
 
                 AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
+                // Customize Login URL path
+                AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
+                authenticationFilter.setFilterProcessesUrl("/users/login");
+
                 http
                                 .csrf()
                                 .disable()
@@ -47,7 +52,10 @@ public class WebSecurity {
                                 .authenticated()
                                 .and()
                                 .authenticationManager(authenticationManager)
-                                .addFilter(new AuthenticationFilter(authenticationManager));
+                                .addFilter(authenticationFilter)
+                                .addFilter(new AuthorizationFilter(authenticationManager))
+                                .sessionManagement()
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
                 return http.build();
         }
