@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.project.app.ws.ui.model.request.ErrorMessage;
+import com.project.app.ws.ui.model.response.ErrorMessage;
 
 @ControllerAdvice
 public class AppExceptionsHandler {

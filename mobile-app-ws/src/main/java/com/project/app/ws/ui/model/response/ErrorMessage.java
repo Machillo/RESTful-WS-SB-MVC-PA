@@ -1,4 +1,4 @@
-package com.project.app.ws.ui.model.request;
+package com.project.app.ws.ui.model.response;
 
 import java.util.Date;
 
