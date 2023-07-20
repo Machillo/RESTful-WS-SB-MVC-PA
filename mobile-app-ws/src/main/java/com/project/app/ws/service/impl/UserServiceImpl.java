@@ -1,14 +1,19 @@
 package com.project.app.ws.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.app.ws.io.entity.UserEntity;
 import com.project.app.ws.io.repository.UserRepository;
@@ -106,6 +111,7 @@ public class UserServiceImpl implements UserService {
         return returnValue;
     }
 
+    @Transactional
     @Override
     public void deleteUser(String userId) {
 
@@ -115,5 +121,27 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 
         userRepository.delete(userEntity);
+    }
+
+    @Override
+    public List<UserDto> getUsers(int page, int limit) {
+
+        List<UserDto> returnValue = new ArrayList<>();
+
+        if (page > 0)
+            page -= 1;
+
+        Pageable pegeableRequest = PageRequest.of(page, limit);
+
+        Page<UserEntity> usersPage = userRepository.findAll(pegeableRequest);
+        List<UserEntity> users = usersPage.getContent();
+
+        for (UserEntity userEntity : users) {
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(userEntity, userDto);
+            returnValue.add(userDto);
+        }
+
+        return returnValue;
     }
 }
