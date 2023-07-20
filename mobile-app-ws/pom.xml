@@ -45,6 +45,11 @@
     <version>0.11.5</version>
     <scope>runtime</scope>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
 
 
     <dependency>
