@@ -13,4 +13,8 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     UserEntity findByUserId(String userId);
 
+    UserEntity save(UserEntity userEntity);
+
+    void delete(UserEntity userEntity);
+
 }

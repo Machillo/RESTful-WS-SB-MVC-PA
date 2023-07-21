@@ -7,12 +7,13 @@ import java.util.Base64;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -61,7 +62,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                 .setSigningKey(secretKey)
                 .build();
 
-        Jwt<Header, Claims> jwt = jwtParser.parse(token);
+        Jws<Claims> jwt = jwtParser.parseClaimsJws(token); // Cambio aquí para obtener un Jws<Claims>
         String subject = jwt.getBody().getSubject();
 
         if (subject == null) {
