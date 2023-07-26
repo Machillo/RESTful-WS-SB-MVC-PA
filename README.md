@@ -47,4 +47,4 @@ Contact
 If you have any questions or suggestions about the project, feel free to contact me through LinkedIn or email.
 
 LinkedIn: Kenneth Alvarado
-Email: gatorico992gmail.com
+Email: gatotico99@gmail.com
